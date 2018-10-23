@@ -1,1 +1,1 @@
-# simple-ipv4-router-iptables
+Simple iptables set for Linux IPv4 router.
