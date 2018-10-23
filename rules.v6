@@ -1,0 +1,15 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -m state --state INVALID -j DROP
+-A INPUT -i lo -j ACCEPT -m comment --comment "loopback"
+# MTU autodiscovery
+-A INPUT -p icmpv6 --icmpv6-type packet-too-big -j ACCEPT -m comment --comment "MTU autodiscovery"
+-A INPUT -p icmpv6 --icmpv6-type destination-unreachable -j ACCEPT -m comment --comment "MTU autodiscovery"
+# IPv6 NDP
+-A INPUT -p icmpv6 --icmpv6-type router-advertisement -j ACCEPT -m comment --comment "IPv6 NDP"
+-A INPUT -p icmpv6 --icmpv6-type neighbor-advertisement -j ACCEPT -m comment --comment "IPv6 NDP"
+-A INPUT -p icmpv6 --icmpv6-type neighbor-solicitation -j ACCEPT -m comment --comment "IPv6 NDP"
+COMMIT
